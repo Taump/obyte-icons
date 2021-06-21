@@ -1,14 +1,13 @@
 {
-  "name": "icon-list-obyte",
-  "version": "1.0.0",
+  "name": "obyte-icons",
+  "version": "1.0.2",
   "description": "",
-  "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "node generate.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "taump@ynadex.ru",
   "license": "ISC",
   "dependencies": {
     "nodemon": "^2.0.7",
