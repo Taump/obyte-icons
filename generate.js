@@ -28,37 +28,71 @@ FS.readdir(filePathStablecoins, (_, files) => {
     FS.readFile(filePathStablecoins + "/" + file, 'utf8', function (_, fileIcon) {
       FS.readFile(filePathStable, 'utf8', function (_, fileStableTemplate) {
         const res = fileStableTemplate.replace("{{logo}}", fileIcon);
-        const resBuffer = Buffer.from(res, 'utf-8');
-        const optimizeRes = optimize(resBuffer, {
+        const normalRes = String(res).replace(/{{color}}/g, "black");
+        const inverseRes = String(res).replace(/{{color}}/g, "white");
+        const normalResBuffer = Buffer.from(normalRes, 'utf-8');
+        const inverseResBuffer = Buffer.from(inverseRes, 'utf-8');
+
+        const optimizeNormalRes = optimize(normalResBuffer, {
           plugins: [
             { name: 'removeAttrs', params: { attrs: '(width|height)' } },
           ]
         });
-        FS.writeFileSync(__dirname + `/${buildFolderName}/${stableName}.svg`, optimizeRes.data);
+
+        const inverseNormalRes = optimize(inverseResBuffer, {
+          plugins: [
+            { name: 'removeAttrs', params: { attrs: '(width|height)' } },
+          ]
+        });
+
+        FS.writeFileSync(__dirname + `/${buildFolderName}/${stableName}.svg`, optimizeNormalRes.data);
+        FS.writeFileSync(__dirname + `/${buildFolderName}/${stableName}-INV.svg`, inverseNormalRes.data);
       })
 
       FS.readFile(filePathInterest, 'utf8', function (_, fileInterestTemplate) {
         const res = fileInterestTemplate.replace("{{logo}}", fileIcon);
+        const normalRes = String(res).replace(/{{color}}/g, "black");
+        const inverseRes = String(res).replace(/{{color}}/g, "white");
+        const normalResBuffer = Buffer.from(normalRes, 'utf-8');
+        const inverseResBuffer = Buffer.from(inverseRes, 'utf-8');
 
-        const resBuffer = Buffer.from(res, 'utf-8');
-        const optimizeRes = optimize(resBuffer, {
+        const optimizeNormalRes = optimize(normalResBuffer, {
           plugins: [
             { name: 'removeAttrs', params: { attrs: '(width|height)' } },
           ]
         });
 
-        FS.writeFileSync(__dirname + `/${buildFolderName}/${interestName}.svg`, optimizeRes.data);
+        const inverseNormalRes = optimize(inverseResBuffer, {
+          plugins: [
+            { name: 'removeAttrs', params: { attrs: '(width|height)' } },
+          ]
+        });
+
+        FS.writeFileSync(__dirname + `/${buildFolderName}/${interestName}.svg`, optimizeNormalRes.data);
+        FS.writeFileSync(__dirname + `/${buildFolderName}/${interestName}-INV.svg`, inverseNormalRes.data);
       })
 
       FS.readFile(filePathFund, 'utf8', function (_, fileFundTemplate) {
         const res = fileFundTemplate.replace("{{logo}}", fileIcon);
-        const resBuffer = Buffer.from(res, 'utf-8');
-        const optimizeRes = optimize(resBuffer, {
+        const normalRes = String(res).replace(/{{color}}/g, "black");
+        const inverseRes = String(res).replace(/{{color}}/g, "white");
+        const normalResBuffer = Buffer.from(normalRes, 'utf-8');
+        const inverseResBuffer = Buffer.from(inverseRes, 'utf-8');
+
+        const optimizeNormalRes = optimize(normalResBuffer, {
           plugins: [
             { name: 'removeAttrs', params: { attrs: '(width|height)' } },
           ]
         });
-        FS.writeFileSync(__dirname + `/${buildFolderName}/${fundName}.svg`, optimizeRes.data);
+
+        const inverseNormalRes = optimize(inverseResBuffer, {
+          plugins: [
+            { name: 'removeAttrs', params: { attrs: '(width|height)' } },
+          ]
+        });
+
+        FS.writeFileSync(__dirname + `/${buildFolderName}/${fundName}.svg`, optimizeNormalRes.data);
+        FS.writeFileSync(__dirname + `/${buildFolderName}/${fundName}-INV.svg`, inverseNormalRes.data);
       });
     })
   });
@@ -71,6 +105,8 @@ FS.readdir(__dirname + "/icons/other", (_, files) => {
     if (file === ".DS_Store") return;
     const oldPath = __dirname + "/icons/other/" + file;
     const newPath = __dirname + `/${buildFolderName}/` + file;
+    const invNewPath = __dirname + `/${buildFolderName}/` + file.replace(".svg", "") + "-INV.svg";
+
     symbols.push(file.replace(".svg", ""));
     FS.readFile(oldPath, 'utf8', function (_, otherFile) {
       const otherFileBuffer = Buffer.from(otherFile, 'utf-8');
@@ -82,6 +118,7 @@ FS.readdir(__dirname + "/icons/other", (_, files) => {
       });
 
       FS.writeFileSync(newPath, optimizeRes.data);
+      FS.writeFileSync(invNewPath, optimizeRes.data);
     })
   })
   FS.readFile(__dirname + `/${buildFolderName}/list.json`, 'utf8', function (_, listFile) {
