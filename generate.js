@@ -24,7 +24,11 @@ FS.readdir(filePathStablecoins, (_, files) => {
     if (file === ".DS_Store") return;
     const [fundName, interestName, stableName] = file.replace(".svg", "").split("-");
     if (!fundName || !interestName || !stableName) throw "Error name";
-    symbols = [...symbols, fundName, interestName, stableName]
+
+    if (!symbols.includes(fundName)) symbols.push(fundName);
+    if (!symbols.includes(interestName)) symbols.push(interestName);
+    if (!symbols.includes(stableName)) symbols.push(stableName);
+    
     FS.readFile(filePathStablecoins + "/" + file, 'utf8', function (_, fileIcon) {
       FS.readFile(filePathStable, 'utf8', function (_, fileStableTemplate) {
         const res = fileStableTemplate.replace("{{logo}}", fileIcon);
@@ -106,8 +110,12 @@ FS.readdir(__dirname + "/icons/other", (_, files) => {
     const oldPath = __dirname + "/icons/other/" + file;
     const newPath = __dirname + `/${buildFolderName}/` + file;
     const invNewPath = __dirname + `/${buildFolderName}/` + file.replace(".svg", "") + "-INV.svg";
+    const symbol = file.replace(".svg", "");
 
-    symbols.push(file.replace(".svg", ""));
+    if (!symbols.includes(symbol)) {
+      symbols.push(symbol);
+    }
+
     FS.readFile(oldPath, 'utf8', function (_, otherFile) {
       const otherFileBuffer = Buffer.from(otherFile, 'utf-8');
 
