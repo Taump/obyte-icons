@@ -14,5 +14,3 @@ List of icons: `https://cdn.jsdelivr.net/npm/obyte-icons@latest/build/list.json`
 3. yarn / npm i
 4. yarn start / npm start
 5. Save changes
-
-``
