@@ -22,13 +22,22 @@ FS.readdir(filePathStablecoins, (_, files) => {
   let symbols = [];
   files.forEach(file => {
     if (file === ".DS_Store") return;
-    const [fundName, interestName, stableName] = file.replace(".svg", "").split("-");
+    const fileNameSplit = file.replace(".svg", "").split("-");
+    let fundName, interestName, stableName, growthName;
+
+    if (fileNameSplit.length === 3) {
+      [fundName, interestName, stableName] = fileNameSplit;
+    } else {
+      [growthName, fundName, interestName, stableName] = fileNameSplit;
+    }
+
     if (!fundName || !interestName || !stableName) throw "Error name";
 
     if (!symbols.includes(fundName)) symbols.push(fundName);
     if (!symbols.includes(interestName)) symbols.push(interestName);
     if (!symbols.includes(stableName)) symbols.push(stableName);
-    
+    if (growthName && !symbols.includes(growthName)) symbols.push(growthName);
+
     FS.readFile(filePathStablecoins + "/" + file, 'utf8', function (_, fileIcon) {
       FS.readFile(filePathStable, 'utf8', function (_, fileStableTemplate) {
         const res = fileStableTemplate.replace("{{logo}}", fileIcon);
@@ -97,6 +106,11 @@ FS.readdir(filePathStablecoins, (_, files) => {
 
         FS.writeFileSync(__dirname + `/${buildFolderName}/${fundName}.svg`, optimizeNormalRes.data);
         FS.writeFileSync(__dirname + `/${buildFolderName}/${fundName}-INV.svg`, inverseNormalRes.data);
+
+        if (growthName) {
+          FS.writeFileSync(__dirname + `/${buildFolderName}/${growthName}.svg`, optimizeNormalRes.data);
+          FS.writeFileSync(__dirname + `/${buildFolderName}/${growthName}-INV.svg`, inverseNormalRes.data);
+        }
       });
     })
   });
