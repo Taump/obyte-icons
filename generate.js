@@ -139,8 +139,17 @@ FS.readdir(__dirname + "/icons/other", (_, files) => {
         ]
       });
 
-      FS.writeFileSync(newPath, optimizeRes.data);
-      FS.writeFileSync(invNewPath, optimizeRes.data);
+      const isPossibleToInverse = optimizeRes.data.includes("{{color}}");
+
+      let inverseResData, regularResData;
+
+      if (isPossibleToInverse) {
+        inverseResData = String(optimizeRes.data).replace(/{{color}}/g, "white");
+        regularResData = String(optimizeRes.data).replace(/{{color}}/g, "black");
+      }
+
+      FS.writeFileSync(newPath, regularResData ?? optimizeRes.data);
+      FS.writeFileSync(invNewPath, inverseResData ?? optimizeRes.data);
     })
   })
   FS.readFile(__dirname + `/${buildFolderName}/list.json`, 'utf8', function (_, listFile) {
