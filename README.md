@@ -14,3 +14,15 @@ List of icons: `https://cdn.jsdelivr.net/npm/obyte-icons@latest/build/list.json`
 3. yarn / npm i
 4. yarn start / npm start
 5. Save changes
+
+### Aliases
+
+If a symbol should reuse an existing icon (for example `ETH_2` should look the same as `ETH`), add it to `aliases.json`:
+
+```json
+{
+  "ETH_2": "ETH"
+}
+```
+
+The generator will create `ETH_2.svg` and `ETH_2-INV.svg` as copies of the `ETH` icons and add `ETH_2` to `list.json`. The source symbol must be an existing icon (or an alias declared above it).

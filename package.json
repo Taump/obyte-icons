@@ -1,6 +1,6 @@
 {
   "name": "obyte-icons",
-  "version": "1.0.23",
+  "version": "1.1.0",
   "description": "",
   "type": "module",
   "homepage": "https://github.com/taump/obyte-icons#readme",
@@ -9,7 +9,8 @@
     "url": "https://github.com/taump/obyte-icons.git"
   },
   "scripts": {
-    "start": "node generate.js"
+    "start": "node generate.js",
+    "test": "node --test"
   },
   "keywords": [],
   "author": "taump@ynadex.ru",
