@@ -1,5 +1,8 @@
 {
   "ETH_2": "ETH",
   "USDC_2": "USDC",
-  "WBTC_2": "WBTC"
+  "WBTC_2": "WBTC",
+  "OSWAP2": "OSWAP",
+  "CITY_NEW": "CITY",
+  "FRD_NEW": "FRD"
 }
